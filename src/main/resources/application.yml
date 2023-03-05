@@ -1,0 +1,14 @@
+client:
+  weather-stack:
+    host: api.weatherstack.com # address of egress proxy should be injected as environment variable
+    port: 80 # same with port
+    access-key: aaa733ce6bdd0327f1aadb2fea4804ba # access_key should be stored in Kubernetes secrets / Vault and injected to a local file (additional resolving mechanism required) or environmental variables
+
+caching:
+  ttl: 30
+
+spring:
+  redis:
+    host: localhost
+    port: 6379
+

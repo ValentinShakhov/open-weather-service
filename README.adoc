@@ -1,21 +1,46 @@
-= Weather Stack API
-:toc:
+=== What has been changed
 
-== Analysis
+* External service returns errors with _200_ status code, this has been handled in such a way that proper errors are transparently returned to the user, without spoiling the business logic code
+* _access_key_ added via configuration setup to avoid spoiling the business logic code
+* Distributed caching with configurable _ttl_ has been added
+* Isolated tests implemented for every layer of application
+* Major variable properties have been externalized
+* Spring and Java versions have been updated
+* API has been changed to look more RESTful
+* _temperature_ data type has been changed to _Integer_ (could be double, however it is unclear whether external service can return something but whole integers)
+* Existing repository was removed completely since its purpose was assumed to be a cache, for which H2 is not a proper solution, since it is an in-memory database (cannot serve as a distributed cache)
 
-We onboarded this software, but after an analysis from our developer team, we figured out that the software is not production ready.
+=== To make it fully production ready, this application should also be:
 
-Your task is to improve all necessary points to transform this service into a production-ready service.
+* containerized (with Docker)
+* Embedded Redis should be replaced with Docker Test Containers
+* infrastructure should be setup (consider Kubernetes in cloud), with ingress controller, egress controller, service, secrets, auth gateway, etc...
+* building, testing, static analysis (consider SonarQube), deployment pipelines should be setup
+* metrics should be exposed and collected (consider Prometheus), such as: error/success remote calls, api calls, cache hits, timing for response, timing for remote calls
+* dashboards should be setup for above-mentioned metrics (consider Grafana)
+* It is worth pointing out that passing _access_key_ in a URL is not secure, however this is out of control with chosen external service
 
-=== Weather Stack
+===== See also comments in _application.yml_
 
-https://weatherstack.com/[Weather Stack API] provide free information about weather.
+=== Tech stack
 
-==== Account
+* Java 19
+* Spring Boot 2.7.9
+* Spring Data Redis 2.7.9
+* Spring Cache 2.7.9
+* SpringDoc OpenAPI 1.6.4
+* WireMock 2.27.2
+* Embedded Redis 0.7.3
 
-You can create your free account using this https://weatherstack.com/signup/free[link].
+=== Running instructions
+API documentation is available at: http://localhost:8080/swagger-ui/index.html
 
-== Requirements
+==== Running with distributed cache enabled
+1. Start a Redis server locally (for instance with Docker: `docker run --name my-redis-container -p 6379:6379 -d redis`)
+2. Run the service with command `./mvnw spring-boot:run`
 
-* This software must be production ready;
-* The software should avoid calling external services about the same city for 30 minutes;
+==== Running with cache disabled
+Run the service with command `./mvnw spring-boot:run "-Dspring-boot.run.profiles=no-cache"`
+
+
+

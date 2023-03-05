@@ -1,9 +1,9 @@
-package com.assignment.openweatherservice.weatherstack;
+package com.assignment.openweatherservice.weatherstack.response;
 
 public class Current {
 
     private String observation_time;
-    private String temperature;
+    private int temperature;
     private String weather_code;
     private String[] weather_icons;
     private String[] weather_descriptions;
@@ -27,11 +27,11 @@ public class Current {
         this.observation_time = observation_time;
     }
 
-    public String getTemperature() {
+    public int getTemperature() {
         return temperature;
     }
 
-    public void setTemperature(String temperature) {
+    public void setTemperature(int temperature) {
         this.temperature = temperature;
     }
 

@@ -1,8 +1,8 @@
-package com.assignment.openweatherservice.weatherstack;
+package com.assignment.openweatherservice.weatherstack.response;
 
 import java.io.Serializable;
 
-public class WeatherStackResponse implements Serializable {
+public class WeatherStackResponse {
 
     private Request request;
     private Location location;

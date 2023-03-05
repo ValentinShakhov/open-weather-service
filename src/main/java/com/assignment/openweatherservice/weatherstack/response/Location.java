@@ -1,4 +1,4 @@
-package com.assignment.openweatherservice.weatherstack;
+package com.assignment.openweatherservice.weatherstack.response;
 
 public class Location {
 
